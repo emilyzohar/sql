@@ -209,5 +209,9 @@ Consider, for example, concepts of fariness, inequality, social structures, marg
 
 
 ```
-Your thoughts...
+Modern payment systems embed a value system that equates legitimacy, trustworthiness, and full participation in society with having a stable, permanent residence. Requirements such as billing addresses and postal codes are not just technical safeguards—they reflect an assumption that a “normal” user is housed, geographically stable, and formally registered within provincial and financial systems.
+
+This creates a structural bias against individuals with unstable housing, frequent mobility, or no fixed address, including renters, migrants, and unhoused populations. These systems effectively treat housing stability as a prerequisite for economic participation, thereby reinforcing existing inequalities.
+
+In this way, what appears to be a neutral verification mechanism actually encodes a specific social model of the individual—one that privileges permanence, documentation, and traceability—while marginalizing those who do not fit that model. Limiting these individuals from their ability to participate in society especially with the rising reliance on digital payment systems over physical cash.
 ```

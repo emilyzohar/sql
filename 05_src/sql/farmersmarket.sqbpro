@@ -1,4 +1,4 @@
- /* ASSIGNMENT 1 */
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="farmersmarket.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="7306"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="vendor_booth_assignments" custom_title="0" dock_id="2" table="4,24:mainvendor_booth_assignments"/><dock_state state="000000ff00000000fd00000001000000020000047300000342fc0100000002fb000000160064006f0063006b00420072006f007700730065003101000000000000039e0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000000004730000010100ffffff000002d90000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="booth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="104"/><column index="2" value="125"/><column index="3" value="300"/><column index="4" value="83"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="vendor_booth_assignments" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="2" mode="0"/></sort><column_widths><column index="1" value="74"/><column index="2" value="106"/><column index="3" value="92"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*"> /* ASSIGNMENT 1 */
 --Please write responses between the QUERY # and END QUERY blocks
 /* SECTION 2 */
 
@@ -31,7 +31,7 @@ LIMIT 10;
 Limit to 25 rows of output. */
 SELECT *
 FROM customer_purchases
-WHERE product_id = 4 OR product_id = 9
+WHEN product_id = 4 OR product_id = 5
 LIMIT 25;
 
 
@@ -42,11 +42,7 @@ filtered by customer IDs between 8 and 10 (inclusive) using either:
 Limit to 25 rows of output.
 */
 --QUERY 3
-SELECT *
-,quantity * cost_to_customer_per_qty AS price
-FROM customer_purchases
-WHERE customer_id BETWEEN 8 AND 10
-LIMIT 25;
+
 
 
 
@@ -59,12 +55,7 @@ Using the product table, write a query that outputs the product_id and product_n
 columns and add a column called prod_qty_type_condensed that displays the word “unit” 
 if the product_qty_type is “unit,” and otherwise displays the word “bulk.” */
 --QUERY 4
-SELECT product_id, product_name 
-, CASE
-WHEN product_qty_type = 'unit' THEN 'unit'
-ELSE 'bulk'
-END as prod_qty_type_condensed
-FROM product;
+
 
 
 
@@ -75,12 +66,7 @@ FROM product;
 add a column to the previous query called pepper_flag that outputs a 1 if the product_name 
 contains the word “pepper” (regardless of capitalization), and otherwise outputs 0. */
 --QUERY 5
-SELECT product_id, product_name 
-, CASE
-WHEN product_name LIKE '%pepper%' OR '%Pepper%'  THEN '1'
-ELSE '0'
-END as pepper_flag
-FROM product;
+
 
 
 
@@ -92,11 +78,7 @@ FROM product;
 vendor_id field they both have in common, and sorts the result by market_date, then vendor_name.
 Limit to 24 rows of output. */
 --QUERY 6
-SELECT *
-FROM vendor AS v
-INNER JOIN vendor_booth_assignments AS vba
-    ON v.vendor_id = vba.vendor_id
-ORDER BY  market_date, vendor_name;
+
 
 
 
@@ -110,11 +92,7 @@ ORDER BY  market_date, vendor_name;
 /* 1. Write a query that determines how many times each vendor has rented a booth 
 at the farmer’s market by counting the vendor booth assignments per vendor_id. */
 --QUERY 7
-SELECT 
-COUNT(*)
-,vendor_id
-FROM vendor_booth_assignments
-GROUP BY vendor_id;
+
 
 
 
@@ -127,16 +105,7 @@ of customers for them to give stickers to, sorted by last name, then first name.
 
 HINT: This query requires you to join two tables, use an aggregate function, and use the HAVING keyword. */
 --QUERY 8
-SELECT c.customer_id
-,customer_first_name
-,customer_last_name
-,SUM(quantity * cost_to_customer_per_qty) AS total_spent
-FROM customer AS c
-INNER JOIN customer_purchases AS cp
-    ON c.customer_id = cp.customer_id
-GROUP BY c.customer_id, customer_first_name, customer_last_name
-HAVING SUM(quantity * cost_to_customer_per_qty) > 2000
-ORDER BY customer_last_name, customer_first_name;
+
 
 
 
@@ -151,18 +120,12 @@ HINT: This is two total queries -- first create the table from the original, the
 When inserting the new vendor, you need to appropriately align the columns to be inserted 
 (there are five columns to be inserted, I've given you the details, but not the syntax) 
 
--> To insert the new row use VALUES, specifying the value you want for each column:
+-&gt; To insert the new row use VALUES, specifying the value you want for each column:
 VALUES(col1,col2,col3,col4,col5) 
 */
 --QUERY 9
-DROP TABLE IF EXISTS temp.new_vendor;
 
-CREATE TABLE temp.new_vendor AS
-SELECT *
-FROM vendor;
 
-INSERT INTO temp.new_vendor
-VALUES (10, 'Thomass Superfood Store', 'Fresh Focused', 'Thomas', 'Rosenthal');
 
 
 --END QUERY
@@ -176,11 +139,6 @@ and year are!
 Limit to 25 rows of output. */
 --QUERY 10
 
-SELECT customer_id
-,STRFTIME('%m', market_date) AS month
-,STRFTIME('%Y', market_date) AS year
-FROM customer_purchases
-LIMIT 25;
 
 
 
@@ -194,16 +152,9 @@ HINTS: you will need to AGGREGATE, GROUP BY, and filter...
 but remember, STRFTIME returns a STRING for your WHERE statement...
 AND be sure you remove the LIMIT from the previous query before aggregating!! */
 --QUERY 11
-SELECT customer_id
-,STRFTIME('%m', market_date) AS month
-,STRFTIME('%Y', market_date) AS year
-FROM customer_purchases;
 
-SELECT customer_id
-    ,SUM(quantity * cost_to_customer_per_qty) AS total_spent
-FROM customer_purchases
-WHERE STRFTIME('%m', market_date) = '04'
-  AND STRFTIME('%Y', market_date) = '2022'
-GROUP BY customer_id;
+
+
 
 --END QUERY
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
