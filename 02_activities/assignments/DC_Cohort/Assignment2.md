@@ -56,7 +56,11 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+To track customer addresses, the store can use Type 1 or Type 2 slowly changing dimensions
+
+Using Type 1, the customer table would have one address row per customer, with relevant location fields (customer id, street address, city, ...). If the customer moves to a new address, the architecture will update the existing row with the new address information overwriting the previous address data. This way, one address is kept per customer but no history of the prior addresses are retained.
+
+Using Type 2, the customer table would keep data of all prior residences by adding a new row when an address changes. In this case, and there would be a varible to indicate which is the current address. 
 ```
 
 ***
@@ -191,5 +195,11 @@ Consider, for example, concepts of labour, bias, LLM proliferation, moderating c
 
 
 ```
-Your thoughts...
+The article argues that modern AI systems are not truly autonomous but rely heavily on human labor, which raises several ethical concerns.
+
+AI requires large numbers of people to label data, often in low-paid and precarious roles such as MTurk. This work is largely invisible, creating a misleading impression that machines are doing everything. The ethical concern is that workers are not adequately compensated or recognized for their contributions.
+
+Additionally, there are concerns about data sourcing and consent. AI's are trained on on data sourced from the internet without clear permission. This raises questions about privacy, ownership, and whether individuals have meaningful control over how their data is used.
+
+Moreover, as humans are labelling the data and humans are flawed, irrational, and come with their own biases AI is also embedded with the biases and errors. 
 ```
